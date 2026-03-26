@@ -18,7 +18,9 @@ jobs:
           node-version: "22"
 
       - name: Install deps
-        run: npm install
+        # --legacy-peer-deps: framer-motion may declare peerDep react@^18
+        # while we use react@19 — both are runtime-compatible
+        run: npm install --legacy-peer-deps
 
       - name: Lint
         run: npm run lint
@@ -26,4 +28,5 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          # Needed at build time for ISR fetches in server components
           GATEWAY_URL: https://portfolio-api.jcrlabs.net
