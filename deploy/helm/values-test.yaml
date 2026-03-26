@@ -1,0 +1,11 @@
+replicaCount: 1
+
+image:
+  tag: develop-latest
+
+ingress:
+  host: test.jcrlabs.net
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 1
