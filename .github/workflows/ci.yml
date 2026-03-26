@@ -2,36 +2,28 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: ['**']
   pull_request:
     branches: [develop, main]
 
 jobs:
-  lint:
-    name: Lint
+  ci:
+    name: Lint + Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: npm
-      - run: npm install
-      - run: npm run lint
 
-  build:
-    name: Build verify
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: npm
-      - run: npm install
-      - run: npm run build
-      - uses: actions/upload-artifact@v4
-        with:
-          name: next-build
-          path: .next/standalone
-          retention-days: 1
+
+      - name: Install deps
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+        env:
+          GATEWAY_URL: https://portfolio-api.jcrlabs.net

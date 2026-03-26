@@ -1,50 +1,55 @@
 # CLAUDE.md — portfolio-landing
 
 > Extiende: `SHARED-CLAUDE.md`
-> Dominio: `jcrlabs.net` | Namespace K8s: `portfolio`
+> Dominio prod: `home.jcrlabs.net` | test: `home-test.jcrlabs.net`
+> Namespace K8s: `portfolio` (prod) / `portfolio-test` (test)
 
 ## Qué es esto
 
-Landing principal del portfolio. Muestra todos los proyectos con status en tiempo real,
-sección About y links. Next.js 16.2 con App Router, ISR cada 60 s, Framer Motion.
+Landing principal del portfolio. Muestra todos los proyectos con status en tiempo real
+vía ISR (revalidate: 60s). Next.js 16.2 con App Router, Framer Motion, Tailwind v4.
 
 ## Stack
 
-- **Framework**: Next.js 16.2 (App Router, standalone output)
-- **Runtime**: Node.js 22 LTS
-- **Estilos**: Tailwind CSS v4 — sin `tailwind.config.js`
-- **Animaciones**: Framer Motion v11
-- **Build**: Turbopack (`next dev --turbopack`)
-- **Deploy**: Namespace `portfolio`, `jcrlabs.net`
+- Next.js 16.2 (App Router, `output: "standalone"`)
+- React 19 · TypeScript · Tailwind CSS v4 · Framer Motion v11
+- Node.js 22 LTS
 
 ## Estructura (mínima)
 
 ```
 app/
-├── page.tsx          # Server component: ISR fetch + grid
-├── layout.tsx        # Root layout + metadata
-└── globals.css       # @import "tailwindcss"
+├── page.tsx           # Server component: ISR + bento grid
+├── layout.tsx         # Root layout, Inter + JetBrains Mono fonts
+└── globals.css        # Tailwind v4, noise grain, orbs, card-glow
 components/
-├── Hero.tsx          # Hero con nombre, bio, links GitHub/LinkedIn
-├── ProjectCard.tsx   # Card con status badge + Framer Motion
-└── About.tsx         # Skills grid + descripción
+├── Nav.tsx            # Floating nav con blur scroll
+├── Hero.tsx           # Full-height hero, gradient heading, CTAs, stats
+├── ProjectGrid.tsx    # Bento grid (col-span-2 para featured)
+├── ProjectCard.tsx    # Glassmorphism card con mouse-tracking glow
+├── About.tsx          # Stack agrupado + bio
+└── Footer.tsx         # Minimal footer
 lib/
-└── projects.ts       # Config estática de todos los proyectos
-next.config.ts        # output: standalone
+└── projects.ts        # PROJECTS array, apiUrl via GATEWAY_URL env
 ```
 
-## Data fetching
+## Variable de entorno
 
-```typescript
-export const revalidate = 60   // ISR — regenera cada 60s
+| Var | Descripción | Prod | Test |
+|-----|-------------|------|------|
+| `GATEWAY_URL` | Base del API Gateway | `https://portfolio-api.jcrlabs.net` | `https://portfolio-api-test.jcrlabs.net` |
 
-// Cada proyecto expone /api/health via el API Gateway
-await fetch(apiUrl, { next: { revalidate: 60 }, signal: AbortSignal.timeout(3000) })
-```
+Inyectada vía Helm `values-prod.yaml` / `values-test.yaml`.
+
+## Dominios
+
+| Entorno | URL |
+|---------|-----|
+| Prod    | `home.jcrlabs.net` |
+| Test    | `home-test.jcrlabs.net` |
 
 ## Qué NO hacer
 
-- No Zustand/Redux — no hay estado global
-- No tRPC — fetch nativo es suficiente
 - No `tailwind.config.js` — Tailwind v4 no lo necesita
-- No tests de UI — el landing es mostly estático
+- No Zustand/Redux — no hay estado global
+- No tests de UI — mostly estático

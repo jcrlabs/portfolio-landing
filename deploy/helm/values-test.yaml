@@ -4,7 +4,10 @@ image:
   tag: develop-latest
 
 ingress:
-  host: test.jcrlabs.net
+  host: home-test.jcrlabs.net
+
+env:
+  GATEWAY_URL: https://portfolio-api-test.jcrlabs.net
 
 hpa:
   minReplicas: 1

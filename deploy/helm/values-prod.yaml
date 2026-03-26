@@ -4,7 +4,10 @@ image:
   tag: v1.0.0
 
 ingress:
-  host: jcrlabs.net
+  host: home.jcrlabs.net
+
+env:
+  GATEWAY_URL: https://portfolio-api.jcrlabs.net
 
 hpa:
   minReplicas: 1
