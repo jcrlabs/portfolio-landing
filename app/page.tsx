@@ -1,6 +1,8 @@
-import { About } from "@/components/About"
+import { Nav } from "@/components/Nav"
 import { Hero } from "@/components/Hero"
-import { ProjectCard } from "@/components/ProjectCard"
+import { ProjectGrid } from "@/components/ProjectGrid"
+import { About } from "@/components/About"
+import { Footer } from "@/components/Footer"
 import { PROJECTS } from "@/lib/projects"
 
 export const revalidate = 60
@@ -21,26 +23,12 @@ export default async function Home() {
   const statuses = await Promise.all(PROJECTS.map((p) => fetchStatus(p.apiUrl)))
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white">
-      <div className="max-w-3xl mx-auto px-6 py-16">
-        <Hero />
-        <section>
-          <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-6">
-            Proyectos
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {PROJECTS.map((project, i) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                online={statuses[i] === "online"}
-                index={i}
-              />
-            ))}
-          </div>
-        </section>
-        <About />
-      </div>
-    </main>
+    <div className="grain relative">
+      <Nav />
+      <Hero />
+      <ProjectGrid projects={PROJECTS} statuses={statuses} />
+      <About />
+      <Footer />
+    </div>
   )
 }

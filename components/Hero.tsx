@@ -2,49 +2,120 @@
 
 import { motion } from "framer-motion"
 
+const STATS = [
+  { value: "5", label: "Production projects" },
+  { value: "400+", label: "GitHub commits" },
+  { value: "99.9%", label: "Cluster uptime" },
+]
+
 export function Hero() {
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="mb-14"
-    >
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 shrink-0" />
-        <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Jonathan Caamano</h1>
-          <p className="text-sm text-zinc-400">Backend Engineer · Platform · jcrlabs.net</p>
+    <section className="relative min-h-screen flex flex-col justify-center pt-14 overflow-hidden">
+      {/* Background gradient orbs */}
+      <div aria-hidden className="absolute inset-0 overflow-hidden">
+        <div className="orb w-[700px] h-[700px] -top-60 -left-40 bg-violet-600/10" />
+        <div className="orb w-[600px] h-[600px] top-1/3 -right-60 bg-blue-600/8" />
+        <div className="orb w-[400px] h-[400px] bottom-20 left-1/3 bg-indigo-600/6" />
+      </div>
+
+      {/* Subtle grid pattern */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      />
+
+      <div className="relative max-w-5xl mx-auto px-6 py-24 w-full">
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
+        >
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 text-[11px] font-mono text-zinc-400 border border-zinc-800 rounded-full bg-zinc-950/60 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Open to opportunities
+          </span>
+        </motion.div>
+
+        {/* Main heading */}
+        <div className="overflow-hidden mb-4">
+          <motion.h1
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[clamp(3.5rem,10vw,7rem)] font-bold tracking-tighter text-white leading-[0.92]"
+          >
+            Jonathan
+          </motion.h1>
         </div>
-      </div>
-      <p className="text-zinc-300 max-w-xl leading-relaxed">
-        Construyo plataformas backend con Go y Kubernetes. Este portfolio muestra proyectos
-        reales corriendo en producción con CI/CD completo y observabilidad.
-      </p>
-      <div className="flex gap-5 mt-5">
-        <a
-          href="https://github.com/jonathanCaamano"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5"
+        <div className="overflow-hidden mb-8">
+          <motion.h1
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.75, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[clamp(3.5rem,10vw,7rem)] font-bold tracking-tighter leading-[0.92] text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 to-zinc-600"
+          >
+            Caamano
+          </motion.h1>
+        </div>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-base text-zinc-400 max-w-lg leading-relaxed mb-10"
         >
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z" />
-          </svg>
-          GitHub
-        </a>
-        <a
-          href="https://linkedin.com/in/jonathancaamano"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5"
+          Backend Engineer focused on Go, Kubernetes and distributed systems.
+          Building infrastructure that ships to production with full observability
+          and zero-downtime deployments.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.42 }}
+          className="flex flex-wrap items-center gap-3 mb-20"
         >
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.93v5.68H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.8 0 0 .77 0 1.73v20.54C0 23.23.8 24 1.77 24h20.46C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.23 0z" />
-          </svg>
-          LinkedIn
-        </a>
+          <a
+            href="#projects"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-zinc-950 text-sm font-medium rounded-xl hover:bg-zinc-100 transition-colors"
+          >
+            View projects
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a
+            href="mailto:hi@jcrlabs.net"
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-zinc-300 border border-zinc-800 text-sm font-medium rounded-xl hover:border-zinc-600 hover:text-white transition-all"
+          >
+            Get in touch
+          </a>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex flex-wrap gap-10"
+        >
+          {STATS.map((s) => (
+            <div key={s.label} className="border-l-2 border-zinc-800 pl-4">
+              <div className="text-xl font-bold text-white font-mono">{s.value}</div>
+              <div className="text-xs text-zinc-500 mt-0.5">{s.label}</div>
+            </div>
+          ))}
+        </motion.div>
       </div>
-    </motion.header>
+    </section>
   )
 }
