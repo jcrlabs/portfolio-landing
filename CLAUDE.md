@@ -48,6 +48,22 @@ Inyectada vía Helm `values-prod.yaml` / `values-test.yaml`.
 | Prod    | `home.jcrlabs.net` |
 | Test    | `home-test.jcrlabs.net` |
 
+## CI local
+
+Ejecutar **antes de cada commit** para evitar que lleguen errores a GitHub Actions:
+
+```bash
+npm run lint
+npm run build
+```
+
+## Git
+
+- Ramas: `feature/`, `bugfix/`, `hotfix/`, `release/` — sin prefijos adicionales
+- Commits: convencional (`feat:`, `fix:`, `chore:`, etc.) — sin mencionar herramientas externas ni agentes en el mensaje
+- PRs: título y descripción propios del cambio — sin mencionar herramientas externas ni agentes
+- Comentarios y documentación: redactar en primera persona del equipo — sin atribuir autoría a herramientas
+
 ## Qué NO hacer
 
 - No `tailwind.config.js` — Tailwind v4 no lo necesita
