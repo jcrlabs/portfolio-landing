@@ -1,0 +1,14 @@
+replicaCount: 2
+
+image:
+  tag: v1.0.0
+
+ingress:
+  host: home.jcrlabs.net
+
+env:
+  GATEWAY_URL: https://portfolio-api.jcrlabs.net
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 2

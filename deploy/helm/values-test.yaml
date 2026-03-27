@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  tag: develop-latest
+
+ingress:
+  host: home-test.jcrlabs.net
+
+env:
+  GATEWAY_URL: https://portfolio-api-test.jcrlabs.net
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 1
