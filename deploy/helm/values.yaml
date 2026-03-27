@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/jonathancaamano/portfolio-landing
+  repository: ghcr.io/jcrlabs/portfolio-landing
   pullPolicy: IfNotPresent
   tag: ""
 
