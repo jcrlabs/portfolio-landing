@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  tag: develop-latest
+  tag: develop-db22308
 
 ingress:
   host: home-test.jcrlabs.net
