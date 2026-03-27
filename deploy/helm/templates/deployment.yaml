@@ -17,6 +17,10 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1001
+      {{- if .Values.image.pullSecretName }}
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecretName }}
+      {{- end }}
       containers:
         - name: landing
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
