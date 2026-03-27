@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  tag: develop-6f14224
+  tag: develop-a7d5a0c
 
 ingress:
   host: home-test.jcrlabs.net
