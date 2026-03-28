@@ -50,8 +50,8 @@ export function About() {
           <div className="mt-8 flex flex-col gap-2">
             {[
               { label: "GitHub", href: "https://github.com/jonathanCaamano" },
-              { label: "LinkedIn", href: "https://linkedin.com/in/jonathancaamano" },
-              { label: "Email", href: "mailto:hi@jcrlabs.net" },
+              { label: "LinkedIn", href: "https://www.linkedin.com/in/jonathancaama%C3%B1o" },
+              { label: "Email", href: "mailto:jonathanriveiro30@gmail.com" },
             ].map((link) => (
               <a
                 key={link.label}

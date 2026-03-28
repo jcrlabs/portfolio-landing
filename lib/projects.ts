@@ -20,7 +20,7 @@ export const PROJECTS: Project[] = [
     id: "inventory",
     name: "Inventory System",
     description: "Gestión de inventario con JWT auth, RBAC y upload de imágenes en MinIO",
-    url: "https://inventory.jcrlabs.net",
+    url: "https://tallerjcr.jcrlabs.net",
     apiUrl: `${GATEWAY}/api/inventory/api/health`,
     stack: ["Go", "React", "PostgreSQL", "MinIO"],
     status: "live",
