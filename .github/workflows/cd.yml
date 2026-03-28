@@ -121,5 +121,11 @@ jobs:
           echo "$KUBECONFIG_DATA" | base64 -d > /tmp/kc
           KUBECONFIG=/tmp/kc kubectl rollout status deployment/portfolio-landing \
             -n portfolio --timeout=5m || \
-          (KUBECONFIG=/tmp/kc kubectl rollout undo deployment/portfolio-landing \
-            -n portfolio && exit 1)
+          {
+            echo "=== Rollout failed — pod diagnostics ==="
+            KUBECONFIG=/tmp/kc kubectl get pods -n portfolio -l app.kubernetes.io/name=portfolio-landing
+            KUBECONFIG=/tmp/kc kubectl describe pods -n portfolio -l app.kubernetes.io/name=portfolio-landing | tail -40
+            KUBECONFIG=/tmp/kc kubectl get events -n portfolio --sort-by='.lastTimestamp' | tail -20
+            KUBECONFIG=/tmp/kc kubectl rollout undo deployment/portfolio-landing -n portfolio
+            exit 1
+          }
