@@ -10,13 +10,14 @@ interface Props {
   statuses: ("online" | "offline")[]
 }
 
-// Bento grid layout sizes for each card (0-indexed)
+// lg: bento layout (3-col); sm: 2-col equal; xs: 1-col
+// col/row-span only kicks in at lg
 const GRID_SPANS = [
-  "col-span-2 row-span-2",  // featured: inventory
-  "col-span-1 row-span-1",
-  "col-span-1 row-span-1",
-  "col-span-1 row-span-1",
-  "col-span-1 row-span-1",
+  "lg:col-span-2 lg:row-span-2",
+  "lg:col-span-1 lg:row-span-1",
+  "lg:col-span-1 lg:row-span-1",
+  "lg:col-span-1 lg:row-span-1",
+  "lg:col-span-1 lg:row-span-1",
 ]
 
 export function ProjectGrid({ projects, statuses }: Props) {
@@ -24,7 +25,7 @@ export function ProjectGrid({ projects, statuses }: Props) {
   const visible = useInView(ref, { once: true, margin: "-80px" })
 
   return (
-    <section id="projects" ref={ref} className="max-w-5xl mx-auto px-6 py-24">
+    <section id="projects" ref={ref} className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={visible ? { opacity: 1, y: 0 } : {}}
