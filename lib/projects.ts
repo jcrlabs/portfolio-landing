@@ -30,7 +30,7 @@ export const PROJECTS: Project[] = [
     id: "blog",
     name: "Blog CMS",
     description: "CMS con ingestión RSS automática de fuentes CNCF/K8s",
-    url: "https://blog.jcrlabs.net",
+    url: "https://tech-blog.jcrlabs.net",
     apiUrl: `${GATEWAY}/api/blog/api/health`,
     stack: ["NestJS", "MongoDB", "GraphQL", "Next.js"],
     status: "wip",
