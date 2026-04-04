@@ -2,11 +2,19 @@ name: CI
 
 on:
   push:
-    branches: ['**']
+    branches: ["**"]
+    tags-ignore: ['v*']
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  ci:
-    name: Lint + Build
+  quality:
+    name: Quality checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,9 +22,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
 
-      - name: Install deps
+      - name: Install dependencies
         run: npm install --legacy-peer-deps
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
 
       - name: Lint
         run: npm run lint
