@@ -20,7 +20,7 @@ export function About() {
     <section
       id="about"
       ref={ref}
-      className="max-w-5xl mx-auto px-6 py-24 border-t border-zinc-900"
+      className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24 border-t border-zinc-900"
     >
       <motion.div
         initial={{ opacity: 0, y: 12 }}

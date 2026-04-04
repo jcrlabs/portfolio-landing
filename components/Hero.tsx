@@ -89,14 +89,14 @@ function TerminalWindow() {
       </div>
 
       {/* Terminal body */}
-      <div className="p-4 min-h-[260px] font-mono text-[12.5px] leading-6 space-y-0.5">
+      <div className="p-4 min-h-[260px] font-mono text-[12.5px] leading-6 space-y-0.5 overflow-x-auto">
         {TERMINAL_LINES.slice(0, visibleLines).map((line, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, x: -4 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex items-start gap-2"
+            className="flex items-start gap-2 whitespace-nowrap"
           >
             {line.type === "cmd" && (
               <>

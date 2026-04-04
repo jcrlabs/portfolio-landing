@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="max-w-5xl mx-auto px-6 py-8 border-t border-zinc-900">
+    <footer className="max-w-5xl mx-auto px-4 sm:px-6 py-8 border-t border-zinc-900">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="font-mono text-xs text-zinc-600">jcrlabs.net</span>

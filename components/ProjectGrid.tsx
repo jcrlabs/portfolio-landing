@@ -38,7 +38,7 @@ export function ProjectGrid({ projects, statuses }: Props) {
         <span className="text-xs font-mono text-zinc-700">{projects.length} total</span>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[220px] gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[240px] sm:auto-rows-[220px] gap-3">
         {projects.map((project, i) => (
           <ProjectCard
             key={project.id}
