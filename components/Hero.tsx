@@ -4,9 +4,9 @@ import { motion, useInView } from "framer-motion"
 import { useRef, useEffect, useState } from "react"
 
 const STATS = [
-  { value: 5,     suffix: "",   label: "Production projects" },
-  { value: 400,   suffix: "+",  label: "GitHub commits" },
-  { value: 99.9,  suffix: "%",  label: "Cluster uptime" },
+  { value: 5,   suffix: "",   label: "Production projects" },
+  { value: 400, suffix: "+",  label: "GitHub commits" },
+  { value: 6,   suffix: "+",  label: "Services in cluster" },
 ]
 
 const TERMINAL_LINES = [

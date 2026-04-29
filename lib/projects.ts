@@ -18,9 +18,9 @@ const GATEWAY = process.env.GATEWAY_URL ?? "https://portfolio-api.jcrlabs.net"
 export const PROJECTS: Project[] = [
   {
     id: "inventory",
-    name: "Inventory System",
-    description: "Gestión de inventario con JWT auth, RBAC y upload de imágenes en MinIO",
-    url: "https://tallerjcr.jcrlabs.net",
+    name: "Electroteca",
+    description: "Sistema de gestión de reparaciones de electrónica con JWT auth, RBAC por roles, upload de imágenes en MinIO y panel de estadísticas en tiempo real",
+    url: "https://electroteca.jcrlabs.net",
     apiUrl: `${GATEWAY}/api/inventory/api/health`,
     stack: ["Go", "React", "PostgreSQL", "MinIO"],
     status: "live",
@@ -33,7 +33,7 @@ export const PROJECTS: Project[] = [
     url: "https://tech-blog.jcrlabs.net",
     apiUrl: `${GATEWAY}/api/blog/api/health`,
     stack: ["NestJS", "MongoDB", "GraphQL", "Next.js"],
-    status: "wip",
+    status: "live",
     repo: "github.com/jonathanCaamano/blog-cms-back",
   },
   {
@@ -53,7 +53,7 @@ export const PROJECTS: Project[] = [
     url: "https://chat.jcrlabs.net",
     apiUrl: `${GATEWAY}/api/chat/api/health`,
     stack: ["Go", "WebSockets", "Redis", "React"],
-    status: "wip",
+    status: "live",
     repo: "github.com/jonathanCaamano/chat-back",
   },
   {
