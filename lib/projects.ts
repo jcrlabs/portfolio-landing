@@ -59,11 +59,11 @@ export const PROJECTS: Project[] = [
   {
     id: "fincontrol",
     name: "FinControl",
-    description: "Control de finanzas personales con análisis y alertas",
+    description: "App de finanzas personales con cuentas multi-divisa, presupuestos por categoría, informes P&L y flujo de caja, transacciones programadas e importación de extractos",
     url: "https://fincontrol.jcrlabs.net",
     apiUrl: `${GATEWAY}/api/fin/api/health`,
-    stack: ["NestJS", "PostgreSQL", "React"],
-    status: "planned",
+    stack: ["NestJS", "PostgreSQL", "React", "i18n"],
+    status: "wip",
     repo: "github.com/jonathanCaamano/fincontrol-back",
   },
 ]
