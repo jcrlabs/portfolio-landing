@@ -16,15 +16,13 @@ const STATUS: Record<ProjectStatus, { color: string; label: string; pulse: boole
 // ── Per-project SVG icons ────────────────────────────────
 function ElectrotecaIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4" stroke="currentColor" className={className} aria-hidden>
-      <rect x="3" y="3" width="18" height="18" rx="2"/>
-      <rect x="8" y="8" width="8" height="8" rx="1" fill="currentColor" fillOpacity="0.15"/>
-      <line x1="10" y1="3" x2="10" y2="8"/><line x1="14" y1="3" x2="14" y2="8"/>
-      <line x1="10" y1="16" x2="10" y2="21"/><line x1="14" y1="16" x2="14" y2="21"/>
-      <line x1="3" y1="10" x2="8" y2="10"/><line x1="3" y1="14" x2="8" y2="14"/>
-      <line x1="16" y1="10" x2="21" y2="10"/><line x1="16" y1="14" x2="21" y2="14"/>
-      <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.9"/>
-    </svg>
+    <img
+      src="/electroteca-logo.svg"
+      alt="Electroteca"
+      aria-hidden
+      className={className}
+      style={{ objectFit: "contain" }}
+    />
   )
 }
 
