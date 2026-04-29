@@ -107,7 +107,7 @@ export function LivePreview() {
   }
 
   return (
-    <section ref={ref} className="max-w-5xl mx-auto px-4 sm:px-6 pb-4">
+    <section ref={ref} className="hidden lg:block max-w-5xl mx-auto px-4 sm:px-6 pb-4">
       {/* Section header */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
