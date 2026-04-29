@@ -55,6 +55,11 @@ const APPS = [
   { id: "chat",        label: "Chat",         url: "https://chat.jcrlabs.net",         color: "emerald" },
 ]
 
+const DEMO_API: Record<string, string> = {
+  electroteca: (process.env.NEXT_PUBLIC_INVENTORY_API_URL ?? "https://api.electroteca.jcrlabs.net") + "/api/v1/auth/demo",
+  chat:        (process.env.NEXT_PUBLIC_CHAT_API_URL      ?? "https://api.chat.jcrlabs.net")        + "/api/auth/demo",
+}
+
 const COLORS: Record<string, { tab: string; urlBar: string; dot: string }> = {
   amber:   { tab: "text-amber-400 border-amber-500", urlBar: "text-amber-400/70", dot: "bg-amber-400" },
   emerald: { tab: "text-emerald-400 border-emerald-500", urlBar: "text-emerald-400/70", dot: "bg-emerald-400" },
@@ -68,11 +73,34 @@ export function LivePreview() {
   const [iframeState, setIframeState] = useState<IframeState>("loading")
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const loadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [demoTokens, setDemoTokens] = useState<Record<string, string>>({})
 
   const app = APPS[activeApp]
   const colors = COLORS[app.color]
+  const appUrl = demoTokens[app.id]
+    ? `${app.url}?demo_token=${demoTokens[app.id]}`
+    : app.url
 
-  // Reset state when app changes
+  // Fetch demo tokens on mount and refresh every 25 min
+  useEffect(() => {
+    async function fetchTokens() {
+      const results = await Promise.allSettled(
+        APPS.map((a) =>
+          fetch(DEMO_API[a.id], { cache: "no-store" })
+            .then((r) => r.ok ? r.json() : Promise.reject())
+            .then((data) => ({ id: a.id, token: data.token as string }))
+        )
+      )
+      const tokens: Record<string, string> = {}
+      results.forEach((r) => { if (r.status === "fulfilled") tokens[r.value.id] = r.value.token })
+      setDemoTokens(tokens)
+    }
+    fetchTokens()
+    const interval = setInterval(fetchTokens, 25 * 60 * 1000)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Reset state when app or its demo URL changes
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIframeState("loading")
@@ -82,7 +110,7 @@ export function LivePreview() {
       setIframeState((s) => (s === "loading" ? "blocked" : s))
     }, 8000)
     return () => { if (loadTimerRef.current) clearTimeout(loadTimerRef.current) }
-  }, [activeApp])
+  }, [activeApp, appUrl])
 
   function handleLoad() {
     if (loadTimerRef.current) clearTimeout(loadTimerRef.current)
@@ -222,8 +250,8 @@ export function LivePreview() {
           {/* iframe */}
           <iframe
             ref={iframeRef}
-            key={app.url}
-            src={app.url}
+            key={appUrl}
+            src={appUrl}
             title={`${app.label} live preview`}
             className={`w-full h-full border-0 transition-opacity duration-500 ${iframeState === "ready" ? "opacity-100" : "opacity-0"}`}
             onLoad={handleLoad}

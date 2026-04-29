@@ -33,7 +33,10 @@ jobs:
       - name: Build & push (develop-SHA)
         run: |
           SHA=$(git rev-parse --short HEAD)
-          docker build -t $REGISTRY/$IMAGE:develop-$SHA .
+          docker build \
+            --build-arg NEXT_PUBLIC_INVENTORY_API_URL=${{ vars.NEXT_PUBLIC_INVENTORY_API_URL }} \
+            --build-arg NEXT_PUBLIC_CHAT_API_URL=${{ vars.NEXT_PUBLIC_CHAT_API_URL }} \
+            -t $REGISTRY/$IMAGE:develop-$SHA .
           docker push $REGISTRY/$IMAGE:develop-$SHA
           echo "SHA=$SHA" >> $GITHUB_ENV
 
@@ -66,7 +69,10 @@ jobs:
 
       - name: Build & push (${{ env.VERSION }})
         run: |
-          docker build -t $REGISTRY/$IMAGE:$VERSION .
+          docker build \
+            --build-arg NEXT_PUBLIC_INVENTORY_API_URL=${{ vars.NEXT_PUBLIC_INVENTORY_API_URL }} \
+            --build-arg NEXT_PUBLIC_CHAT_API_URL=${{ vars.NEXT_PUBLIC_CHAT_API_URL }} \
+            -t $REGISTRY/$IMAGE:$VERSION .
           docker push $REGISTRY/$IMAGE:$VERSION
 
       - name: Checkout main (to update values-prod.yaml)
