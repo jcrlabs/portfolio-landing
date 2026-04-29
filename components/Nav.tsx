@@ -28,8 +28,15 @@ export function Nav() {
           : "bg-transparent"
       }`}
     >
-      <Link href="/" className="flex items-baseline gap-2 group">
-        <span className="font-semibold text-sm text-white group-hover:text-zinc-200 transition-colors truncate max-w-[160px] sm:max-w-none">
+      <Link href="/" className="flex items-center gap-2.5 group">
+        <img
+          src="/icon.svg"
+          alt="jcrlabs"
+          width={26}
+          height={26}
+          className="rounded-md flex-shrink-0 opacity-90 group-hover:opacity-100 transition-opacity"
+        />
+        <span className="font-semibold text-sm text-white group-hover:text-zinc-200 transition-colors truncate max-w-[140px] sm:max-w-none">
           Jonathan Caamaño Riveiro
         </span>
         <span className="font-mono text-[10px] text-zinc-600 group-hover:text-zinc-500 transition-colors hidden sm:inline">

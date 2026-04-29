@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Background -->
+  <rect width="40" height="40" rx="9" fill="#09090b"/>
+
+  <!-- Glow at peak -->
+  <circle cx="20" cy="8" r="5" fill="#f59e0b" opacity="0.12"/>
+
+  <!-- Roof -->
+  <polyline
+    points="4,21 20,8 36,21"
+    stroke="#f59e0b"
+    stroke-width="1.6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+
+  <!-- House walls -->
+  <rect x="8" y="20.5" width="24" height="15" rx="1.5"
+    fill="#09090b"
+    stroke="#f59e0b"
+    stroke-width="1.6"
+  />
+
+  <!-- Peak node -->
+  <circle cx="20" cy="8" r="2.2" fill="#f59e0b"/>
+
+  <!-- Circuit lines from peak node (tech detail) -->
+  <path d="M20 10.2V14M17 14h6" stroke="#f59e0b" stroke-width="1" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- Left window -->
+  <rect x="10" y="22.5" width="6" height="4" rx="0.8"
+    fill="#f59e0b" opacity="0.15"
+    stroke="#f59e0b" stroke-width="0.9"
+  />
+
+  <!-- Right window -->
+  <rect x="24" y="22.5" width="6" height="4" rx="0.8"
+    fill="#f59e0b" opacity="0.15"
+    stroke="#f59e0b" stroke-width="0.9"
+  />
+
+  <!-- Door -->
+  <rect x="16" y="26.5" width="8" height="9" rx="1"
+    fill="#f59e0b" opacity="0.12"
+    stroke="#f59e0b" stroke-width="0.9"
+  />
+  <!-- Door knob -->
+  <circle cx="22.5" cy="31" r="0.8" fill="#f59e0b" opacity="0.6"/>
+</svg>
