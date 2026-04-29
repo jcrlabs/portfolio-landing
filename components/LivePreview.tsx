@@ -53,7 +53,6 @@ function ExternalIcon() {
 const APPS = [
   { id: "electroteca", label: "Electroteca", url: "https://electroteca.jcrlabs.net", color: "amber" },
   { id: "chat",        label: "Chat",         url: "https://chat.jcrlabs.net",         color: "emerald" },
-  { id: "blog",        label: "Blog",         url: "https://tech-blog.jcrlabs.net",    color: "blue" },
 ]
 
 const COLORS: Record<string, { tab: string; urlBar: string; dot: string }> = {
