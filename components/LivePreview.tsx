@@ -75,6 +75,7 @@ export function LivePreview() {
 
   // Reset state when app changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIframeState("loading")
     if (loadTimerRef.current) clearTimeout(loadTimerRef.current)
     // After 8s fallback: if still loading, show blocked state

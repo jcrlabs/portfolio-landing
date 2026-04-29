@@ -76,6 +76,10 @@ function FinIcon({ className }: { className?: string }) {
   )
 }
 
+function DefaultIcon({ className }: { className?: string }) {
+  return <span className={`text-xs text-zinc-500 ${className ?? ""}`}>○</span>
+}
+
 const PROJECT_ICONS: Record<string, IconFC> = {
   inventory:   ElectrotecaIcon,
   blog:        BlogIcon,
@@ -168,7 +172,7 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
   const statusLabel = isLive ? (online ? "live" : "available") : st.label
   const isPulsing = isLive && online && st.pulse
 
-  const Icon = PROJECT_ICONS[project.id] ?? (() => <span className="text-xs text-zinc-500">○</span>)
+  const Icon = PROJECT_ICONS[project.id] ?? DefaultIcon
 
   function onMouseMove(e: React.MouseEvent) {
     const el = cardRef.current
