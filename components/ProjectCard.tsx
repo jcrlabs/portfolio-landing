@@ -1,73 +1,156 @@
 "use client"
 
 import { useRef } from "react"
+import type { FC } from "react"
 import { motion } from "framer-motion"
 import type { Project, ProjectStatus } from "@/lib/projects"
 
-const STATUS: Record<ProjectStatus, { color: string; dot: string; label: string; pulse: boolean }> = {
-  live:    { color: "text-emerald-400", dot: "bg-emerald-400", label: "live",    pulse: true },
-  wip:     { color: "text-blue-400",    dot: "bg-blue-400",    label: "wip",     pulse: false },
-  planned: { color: "text-zinc-600",    dot: "bg-zinc-600",    label: "planned", pulse: false },
+type IconFC = FC<{ className?: string }>
+
+const STATUS: Record<ProjectStatus, { color: string; label: string; pulse: boolean }> = {
+  live:    { color: "text-emerald-400", label: "live",      pulse: true },
+  wip:     { color: "text-blue-400",    label: "wip",       pulse: false },
+  planned: { color: "text-zinc-600",    label: "planned",   pulse: false },
 }
 
-// Per-project visual identity
+// ── Per-project SVG icons ────────────────────────────────
+function ElectrotecaIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4" stroke="currentColor" className={className} aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <rect x="8" y="8" width="8" height="8" rx="1" fill="currentColor" fillOpacity="0.15"/>
+      <line x1="10" y1="3" x2="10" y2="8"/><line x1="14" y1="3" x2="14" y2="8"/>
+      <line x1="10" y1="16" x2="10" y2="21"/><line x1="14" y1="16" x2="14" y2="21"/>
+      <line x1="3" y1="10" x2="8" y2="10"/><line x1="3" y1="14" x2="8" y2="14"/>
+      <line x1="16" y1="10" x2="21" y2="10"/><line x1="16" y1="14" x2="21" y2="14"/>
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" opacity="0.9"/>
+    </svg>
+  )
+}
+
+function BlogIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4" stroke="currentColor" className={className} aria-hidden>
+      <path d="M4 4h16v3H4z" strokeLinejoin="round"/>
+      <path d="M4 9h16" strokeLinecap="round"/>
+      <path d="M4 12h10" strokeLinecap="round"/>
+      <path d="M4 15h7" strokeLinecap="round"/>
+      <circle cx="18" cy="17" r="3"/>
+      <circle cx="18" cy="17" r="1" fill="currentColor" opacity="0.6"/>
+    </svg>
+  )
+}
+
+function DashboardIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4" stroke="currentColor" className={className} aria-hidden>
+      <circle cx="12" cy="12" r="9"/>
+      <circle cx="12" cy="12" r="2.5" fill="currentColor" fillOpacity="0.2"/>
+      <circle cx="12" cy="4"  r="1.2" fill="currentColor"/>
+      <circle cx="20" cy="12" r="1.2" fill="currentColor"/>
+      <circle cx="4"  cy="12" r="1.2" fill="currentColor"/>
+      <circle cx="12" cy="20" r="1.2" fill="currentColor"/>
+      <line x1="12" y1="6.5" x2="12" y2="9.5"/>
+      <line x1="17.5" y1="12" x2="14.5" y2="12"/>
+      <line x1="6.5" y1="12" x2="9.5" y2="12"/>
+    </svg>
+  )
+}
+
+function ChatIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4" stroke="currentColor" className={className} aria-hidden>
+      <rect x="4" y="5" width="16" height="10" rx="2"/>
+      <path d="M8 19l4-4h8" strokeLinecap="round" strokeLinejoin="round"/>
+      <line x1="8" y1="9" x2="16" y2="9" strokeLinecap="round"/>
+      <line x1="8" y1="12" x2="13" y2="12" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+function FinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4" stroke="currentColor" className={className} aria-hidden>
+      <polyline points="4,16 8,10 12,13 16,7 20,9" strokeLinecap="round" strokeLinejoin="round"/>
+      <line x1="4" y1="19" x2="20" y2="19" strokeLinecap="round"/>
+      <circle cx="20" cy="9" r="1.5" fill="currentColor" opacity="0.7"/>
+    </svg>
+  )
+}
+
+const PROJECT_ICONS: Record<string, IconFC> = {
+  inventory:   ElectrotecaIcon,
+  blog:        BlogIcon,
+  dashboard:   DashboardIcon,
+  chat:        ChatIcon,
+  fincontrol:  FinIcon,
+}
+
+// ── Per-project visual identity ──────────────────────────
 const IDENTITY: Record<string, {
-  icon: string
   accent: string
   border: string
   glow: string
-  label: string
+  iconBg: string
+  iconColor: string
   topLine: string
+  glowClass: string
 }> = {
   inventory: {
-    icon: "⚡",
-    accent: "from-amber-600/18 via-amber-600/5 to-transparent",
-    border: "hover:border-amber-700/50",
-    glow: "hover:shadow-amber-900/25",
-    label: "bg-amber-900/35 text-amber-300",
-    topLine: "via-amber-500/70",
+    accent:    "from-amber-600/15 via-amber-600/5 to-transparent",
+    border:    "hover:border-amber-700/50",
+    glow:      "hover:shadow-amber-900/20",
+    iconBg:    "bg-amber-900/30 border-amber-700/30",
+    iconColor: "text-amber-400",
+    topLine:   "via-amber-500/70",
+    glowClass: "card-glow-amber",
   },
   blog: {
-    icon: "◈",
-    accent: "from-blue-600/15 via-blue-600/4 to-transparent",
-    border: "hover:border-blue-700/60",
-    glow: "hover:shadow-blue-900/30",
-    label: "bg-blue-900/40 text-blue-300",
-    topLine: "via-blue-500/60",
+    accent:    "from-blue-600/12 via-blue-600/4 to-transparent",
+    border:    "hover:border-blue-700/50",
+    glow:      "hover:shadow-blue-900/20",
+    iconBg:    "bg-blue-900/30 border-blue-700/30",
+    iconColor: "text-blue-400",
+    topLine:   "via-blue-500/60",
+    glowClass: "card-glow-blue",
   },
   dashboard: {
-    icon: "◎",
-    accent: "from-cyan-600/15 via-cyan-600/4 to-transparent",
-    border: "hover:border-cyan-700/60",
-    glow: "hover:shadow-cyan-900/30",
-    label: "bg-cyan-900/40 text-cyan-300",
-    topLine: "via-cyan-500/60",
+    accent:    "from-cyan-600/12 via-cyan-600/4 to-transparent",
+    border:    "hover:border-cyan-700/50",
+    glow:      "hover:shadow-cyan-900/20",
+    iconBg:    "bg-cyan-900/30 border-cyan-700/30",
+    iconColor: "text-cyan-400",
+    topLine:   "via-cyan-500/60",
+    glowClass: "card-glow-cyan",
   },
   chat: {
-    icon: "◬",
-    accent: "from-emerald-600/15 via-emerald-600/4 to-transparent",
-    border: "hover:border-emerald-700/60",
-    glow: "hover:shadow-emerald-900/30",
-    label: "bg-emerald-900/40 text-emerald-300",
-    topLine: "via-emerald-500/60",
+    accent:    "from-emerald-600/12 via-emerald-600/4 to-transparent",
+    border:    "hover:border-emerald-700/50",
+    glow:      "hover:shadow-emerald-900/20",
+    iconBg:    "bg-emerald-900/30 border-emerald-700/30",
+    iconColor: "text-emerald-400",
+    topLine:   "via-emerald-500/60",
+    glowClass: "card-glow-emerald",
   },
   fincontrol: {
-    icon: "◇",
-    accent: "from-amber-600/15 via-amber-600/4 to-transparent",
-    border: "hover:border-amber-700/60",
-    glow: "hover:shadow-amber-900/30",
-    label: "bg-amber-900/40 text-amber-300",
-    topLine: "via-amber-500/60",
+    accent:    "from-violet-600/12 via-violet-600/4 to-transparent",
+    border:    "hover:border-violet-700/50",
+    glow:      "hover:shadow-violet-900/20",
+    iconBg:    "bg-violet-900/30 border-violet-700/30",
+    iconColor: "text-violet-400",
+    topLine:   "via-violet-500/60",
+    glowClass: "card-glow",
   },
 }
 
 const DEFAULT_IDENTITY = {
-  icon: "○",
-  accent: "from-zinc-700/15 to-transparent",
-  border: "hover:border-zinc-600/60",
-  glow: "hover:shadow-zinc-900/20",
-  label: "bg-zinc-800/60 text-zinc-400",
-  topLine: "via-zinc-500/40",
+  accent:    "from-zinc-700/12 to-transparent",
+  border:    "hover:border-zinc-600/50",
+  glow:      "hover:shadow-zinc-900/20",
+  iconBg:    "bg-zinc-800/60 border-zinc-700/30",
+  iconColor: "text-zinc-400",
+  topLine:   "via-zinc-500/40",
+  glowClass: "card-glow",
 }
 
 interface Props {
@@ -84,12 +167,10 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
   const cardRef = useRef<HTMLAnchorElement>(null)
   const isFeatured = gridSpan.includes("col-span-2") && gridSpan.includes("row-span-2")
 
-  // "degraded" → "available" when health check fails
-  const statusLabel = isLive
-    ? (online ? "live" : "available")
-    : st.label
-
+  const statusLabel = isLive ? (online ? "live" : "available") : st.label
   const isPulsing = isLive && online && st.pulse
+
+  const Icon = PROJECT_ICONS[project.id] ?? (() => <span className="text-xs text-zinc-500">○</span>)
 
   function onMouseMove(e: React.MouseEvent) {
     const el = cardRef.current
@@ -110,7 +191,17 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.05 + index * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      className={`card-glow card-shimmer group relative flex flex-col rounded-2xl border border-zinc-800/80 bg-zinc-900/60 overflow-hidden transition-all duration-300 shadow-lg ${id.border} ${id.glow} hover:shadow-xl ${gridSpan}`}
+      className={[
+        "card-glow card-shimmer beam-container",
+        id.glowClass,
+        "group relative flex flex-col rounded-2xl border border-zinc-800/80",
+        "bg-zinc-900/50 backdrop-blur-sm overflow-hidden transition-all duration-300 shadow-lg",
+        id.border,
+        id.glow,
+        "hover:shadow-xl",
+        isFeatured ? "featured-amber-glow" : "",
+        gridSpan,
+      ].filter(Boolean).join(" ")}
     >
       {/* Accent gradient */}
       <div className={`absolute inset-0 bg-gradient-to-br ${id.accent} pointer-events-none`} />
@@ -118,11 +209,14 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
       {/* Top accent line */}
       <div className={`absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent ${id.topLine} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
+      {/* Beam sweep (featured only) */}
+      {isFeatured && <div className="beam-sweep pointer-events-none" />}
+
       {/* Featured badge */}
       {isFeatured && (
         <div className="absolute top-4 right-4 z-20">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[9px] font-mono uppercase tracking-widest text-amber-400/70 border border-amber-700/30 rounded-full bg-amber-950/40">
-            <span className="w-1 h-1 rounded-full bg-amber-400 animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-mono uppercase tracking-widest text-amber-400/80 border border-amber-700/30 rounded-full bg-amber-950/50 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
             featured
           </span>
         </div>
@@ -132,9 +226,16 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
       <div className={`relative z-10 flex flex-col h-full ${isFeatured ? "p-6 sm:p-7" : "p-5 sm:p-6"}`}>
         {/* Icon + status row */}
         <div className="flex items-start justify-between mb-4">
-          <div className={`${isFeatured ? "w-12 h-12 text-2xl" : "w-10 h-10 text-xl"} rounded-xl flex items-center justify-center font-bold ${id.label} ring-1 ring-white/5 group-hover:scale-110 transition-transform duration-300`}>
-            {id.icon}
+          <div className={[
+            "rounded-xl flex items-center justify-center ring-1 ring-white/5 group-hover:scale-110 transition-transform duration-300",
+            id.iconBg,
+            id.iconColor,
+            "border",
+            isFeatured ? "w-12 h-12" : "w-10 h-10",
+          ].join(" ")}>
+            <Icon className={isFeatured ? "w-6 h-6" : "w-5 h-5"} />
           </div>
+
           {!isFeatured && (
             <span className={`flex items-center gap-1.5 text-[11px] font-mono ${st.color} shrink-0`}>
               <span className={`w-1.5 h-1.5 rounded-full bg-current shrink-0 ${isPulsing ? "animate-pulse" : ""}`} />
@@ -158,9 +259,9 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
           {project.description}
         </p>
 
-        {/* Featured: status + url row */}
+        {/* Featured: status + url */}
         {isFeatured && (
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className={`flex items-center gap-1.5 text-[11px] font-mono ${st.color}`}>
               <span className={`w-1.5 h-1.5 rounded-full bg-current ${isPulsing ? "animate-pulse" : ""}`} />
               {statusLabel}
@@ -185,7 +286,7 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
         {/* Featured: CTA */}
         {isFeatured && (
           <div className="mt-auto pt-5">
-            <span className="inline-flex items-center gap-2 text-xs font-medium text-amber-400/80 group-hover:text-amber-300 transition-colors">
+            <span className={`inline-flex items-center gap-2 text-xs font-medium ${id.iconColor} group-hover:opacity-100 opacity-70 transition-opacity`}>
               Open app
               <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -195,7 +296,7 @@ export function ProjectCard({ project, online, index, gridSpan }: Props) {
         )}
       </div>
 
-      {/* External link icon — non-featured cards */}
+      {/* External link icon — non-featured */}
       {!isFeatured && (
         <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-1 group-hover:translate-x-0">
           <svg className="w-4 h-4 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

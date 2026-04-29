@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav"
 import { Hero } from "@/components/Hero"
+import { LivePreview } from "@/components/LivePreview"
 import { ProjectGrid } from "@/components/ProjectGrid"
 import { About } from "@/components/About"
 import { Footer } from "@/components/Footer"
@@ -26,6 +27,7 @@ export default async function Home() {
     <div className="grain relative">
       <Nav />
       <Hero />
+      <LivePreview />
       <ProjectGrid projects={PROJECTS} statuses={statuses} />
       <About />
       <Footer />
